@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class Player : Agent
+public class AgentPlayer : Agent
 {
 
     public override void Update()
