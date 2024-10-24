@@ -18,13 +18,11 @@ public class PlayerMovementAndShooting : MonoBehaviour
     private Vector3 movement;
     private bool isGrounded;
     private float nextFireTime = 0f;
-    private Camera mainCamera;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        mainCamera = Camera.main;  // Get reference to the main camera
     }
 
     // Update is called once per frame
@@ -32,9 +30,6 @@ public class PlayerMovementAndShooting : MonoBehaviour
     {
         // Handle movement input
         HandleMovementInput();
-
-        // Rotate the player towards the mouse cursor
-        RotateTowardsMouse();
 
         // Handle shooting input
         HandleShootingInput();
@@ -59,7 +54,7 @@ public class PlayerMovementAndShooting : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) moveX = 1f;    // Move right
 
         // Create movement vector
-        movement = transform.right * moveX + transform.forward * moveZ;
+        movement = new Vector3(moveX, 0f, moveZ).normalized;
 
         // Jumping on space bar
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -87,27 +82,6 @@ public class PlayerMovementAndShooting : MonoBehaviour
         RaycastHit hit;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundMask);
         return isGrounded;
-    }
-
-    // Rotate player to look at where the mouse is pointing
-    void RotateTowardsMouse()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        // Cast a ray from the camera to the mouse position
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
-        {
-            // Get the point where the ray hit
-            Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z); // Maintain player's current Y position
-
-            // Calculate direction to look at
-            Vector3 direction = (targetPosition - transform.position).normalized;
-
-            // Rotate player towards the direction
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);  // Smooth rotation
-        }
     }
 
     // Handle shooting input (mouse click)
