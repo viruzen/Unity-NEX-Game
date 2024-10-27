@@ -1,22 +1,64 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Player : Agent
+[RequireComponent(typeof(Rigidbody))]
+public class Player : MonoBehaviour
 {
+    public float maxSpeed = 5f;                // Player movement speed
+    public GameObject bulletPrefab;            // Reference to the bullet prefab
+    public Transform bulletSpawnPoint;         // Position where bullets spawn
+    public float bulletSpeed = 50f;            // Speed of the bullet
+    public float shootingCooldown = 0.2f;      // Time between shots
 
-    public override void Update()
+    private float lastShotTime;                // Track the time of the last shot
+    private Rigidbody rb;                      // Rigidbody component
+    private Vector3 movementInput;             // Movement input vector
+
+    void Start()
     {
-        velocity.x = Input.GetAxis("Horizontal");
-        velocity.z = Input.GetAxis("Vertical");
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;  // Prevent unwanted rotation from physics
+    }
 
-        velocity *= maxSpeed;
+    void Update()
+    {
+        // Player movement input
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
+        movementInput = new Vector3(moveX, 0, moveZ).normalized * maxSpeed;
 
-        Vector3 translation = velocity * Time.deltaTime;
+        // Player facing direction
+        if (movementInput != Vector3.zero)
+        {
+            transform.forward = movementInput; // Set the forward direction
+        }
 
-        transform.LookAt(transform.position + velocity);
+        // Shooting logic - detect left mouse button click
+        if (Input.GetMouseButtonDown(0) && Time.time > lastShotTime + shootingCooldown)
+        {
+            Shoot();
+            lastShotTime = Time.time;
+        }
+    }
 
-        orientation = transform.rotation.eulerAngles.y;
+    void FixedUpdate()
+    {
+        // Apply movement
+        rb.MovePosition(rb.position + movementInput * Time.fixedDeltaTime);
+    }
 
-        base.Update();
+    void Shoot()
+    {
+        // Instantiate the bullet at the spawn point and get its Rigidbody
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+
+        // Check if the bullet has a Rigidbody component and shoot it forward
+        if (bulletRb != null)
+        {
+            bulletRb.velocity = bulletSpawnPoint.forward * bulletSpeed;
+        }
+
+        // Destroy the bullet after a few seconds to avoid clutter
+        Destroy(bullet, 3f);
     }
 }
