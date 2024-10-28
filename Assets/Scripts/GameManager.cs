@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public TextMeshProUGUI scoreText; // Reference to the score text UI
+    public TextMeshProUGUI scoreText; 
     public GameObject winScreen; // Reference to the win screen UI
 
     private int score = 0;

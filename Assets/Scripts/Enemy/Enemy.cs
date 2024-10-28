@@ -3,10 +3,10 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject bulletPrefab; // Reference to the bullet prefab
-    public Transform firePoint; // Point from where bullets will be instantiated
-    public float shootingInterval = 2f; // Time between shots
-    public float shootingRange = 10f; // Range within which the enemy can shoot
+    public GameObject bulletPrefab; 
+    public Transform firePoint; 
+    public float shootingInterval = 2f; 
+    public float shootingRange = 10f; 
     private Transform playerTransform;
     private NavMeshAgent nav;
 

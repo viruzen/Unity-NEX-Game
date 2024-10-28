@@ -6,14 +6,14 @@ public class MainMenu : MonoBehaviour
     // Method to start the game
     public void PlayGame()
     {
-        // Load the main game scene by name (e.g., "GameScene")
+        // Loading the main game scene
         SceneManager.LoadScene("Game");
     }
 
     // Method to quit the game
     public void QuitGame()
     {
-        Debug.Log("Quit Game"); // Log quit action for testing
+        Debug.Log("Quit Game"); 
 
 #if UNITY_EDITOR
         // If running in the Unity editor, stop playing

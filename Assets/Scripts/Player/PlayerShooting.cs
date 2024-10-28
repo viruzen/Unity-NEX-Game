@@ -2,9 +2,9 @@
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject bulletPrefab; // The bullet prefab to shoot
-    public Transform bulletSpawnPoint; // Where the bullet spawns
-    public float bulletSpeed = 20f; // Speed of the bullet
+    public GameObject bulletPrefab; 
+    public Transform bulletSpawnPoint; 
+    public float bulletSpeed = 20f;
 
     void Update()
     {

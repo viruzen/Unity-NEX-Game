@@ -6,9 +6,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if we hit the player
+        if (other.CompareTag("Player")) // to hit the player
         {
-            Player player = other.GetComponent<Player>(); // Get the Player component
+            Player player = other.GetComponent<Player>(); // Get Player component
             if (player != null)
             {
                 player.TakeDamage(damage); // Call damage method

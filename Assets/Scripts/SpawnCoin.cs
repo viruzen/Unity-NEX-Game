@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float spawnRange = 10f; // Range within which the coin can respawn
-    public float spawnHeight = 0f; // Height at which the coin spawns
+    public float spawnRange = 10f; 
+    public float spawnHeight = 0f; // Height 
 
     private void Start()
     {
-        Respawn(); // Call respawn on start
+        Respawn(); 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Ensure this checks the player correctly
+        if (other.CompareTag("Player")) 
         {
             // Collect the coin and respawn it
             Respawn();
@@ -20,7 +20,7 @@ public class Coin : MonoBehaviour
             // Check if GameManager instance is available before calling
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.IncrementScore(); // Increment the score
+                GameManager.Instance.IncrementScore(); 
             }
             else
             {

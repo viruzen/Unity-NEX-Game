@@ -2,7 +2,7 @@
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 50; // Maximum health for the enemy
+    public int maxHealth = 50; 
     private int currentHealth;
 
     private void Start()
@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy has died!");
-        // Optionally play a death animation or particle effect here
-        Destroy(gameObject); // Destroy the enemy game object
+        
+        Destroy(gameObject);
     }
 }
