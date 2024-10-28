@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using TMPro; // For using TextMeshPro
-using UnityEngine.SceneManagement; // For scene management
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,20 +22,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        score = 0; // Initialize the score to zero
-        winScreen.SetActive(false); // Ensure the win screen is hidden at the start
+        score = 0;
+        if (winScreen != null)
+            winScreen.SetActive(false); // Hide the win screen at the start
         scoreText.text = "Score: " + score; // Initialize the score text
     }
-
 
     public void IncrementScore()
     {
         score++;
-        Debug.Log("Score incremented. Current score: " + score); // Debug statement
+        Debug.Log("Score incremented. Current score: " + score);
 
         scoreText.text = "Score: " + score;
 
-        // Check for win condition when the score is exactly equal to winScore
         if (score == winScore)
         {
             ShowWinScreen();
@@ -44,27 +43,25 @@ public class GameManager : MonoBehaviour
 
     private void ShowWinScreen()
     {
-        winScreen.SetActive(true); // Show the win screen
-        Time.timeScale = 0; // Pause the game
+        winScreen.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1; // Resume the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    // Method to quit the game
     public void QuitGame()
     {
-        // Log a message in the console (optional, for testing)
-        Debug.Log("Quitting game...");
+        Debug.Log("Quit Game");
 
 #if UNITY_EDITOR
-        // If we're in the editor, stop playing the scene
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            // If we are running a standalone build, quit the application
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 }

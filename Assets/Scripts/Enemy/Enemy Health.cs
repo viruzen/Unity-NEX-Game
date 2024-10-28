@@ -2,22 +2,31 @@
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int health = 100; // Starting health of the enemy
+    public int maxHealth = 50; // Maximum health for the enemy
+    private int currentHealth;
 
-    public void TakeDamage(int damage)
+    private void Start()
     {
-        health -= damage; // Subtract damage from health
-        Debug.Log("Enemy took damage! Health: " + health);
+        // Initialize current health to max health at the start
+        currentHealth = maxHealth;
+    }
 
-        if (health <= 0)
+    public void TakeDamage(int damageAmount)
+    {
+        currentHealth -= damageAmount; // Reduce health by the damage amount
+        Debug.Log("Enemy took damage! Current health: " + currentHealth);
+
+        // Check if the enemy's health has reached zero
+        if (currentHealth <= 0)
         {
-            Die(); // Call Die method if health is zero or less
+            Die();
         }
     }
 
     private void Die()
     {
-        Debug.Log("Enemy died!");
-        Destroy(gameObject); // Destroy the enemy GameObject
+        Debug.Log("Enemy has died!");
+        // Optionally play a death animation or particle effect here
+        Destroy(gameObject); // Destroy the enemy game object
     }
 }

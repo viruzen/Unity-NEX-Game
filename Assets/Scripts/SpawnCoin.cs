@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float spawnRange = 10f;
-    public float spawnHeight = 0f;
+    public float spawnRange = 10f; // Range within which the coin can respawn
+    public float spawnHeight = 0f; // Height at which the coin spawns
 
     private void Start()
     {

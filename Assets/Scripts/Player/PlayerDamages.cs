@@ -10,19 +10,27 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        // Ensure the Game Over panel is hidden at the start
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
         }
 
+        // Update health display at the start
         UpdateHealthDisplay();
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Check for collisions with enemies
         if (other.CompareTag("Enemy"))
         {
-            TakeDamage(damageTaken); // Call method to take damage
+            TakeDamage(damageTaken); // Call method to take damage from enemy
+        }
+        // Check for collisions with obstacles
+        else if (other.CompareTag("Obstacle"))
+        {
+            TakeDamage(damageTaken); // Call method to take damage from obstacle
         }
     }
 
@@ -30,7 +38,7 @@ public class Player : MonoBehaviour
     {
         health -= damage; // Reduce health
         Debug.Log("Player took damage! Health: " + health);
-        UpdateHealthDisplay();
+        UpdateHealthDisplay(); // Update health display after taking damage
 
         if (health <= 0)
         {
@@ -45,6 +53,7 @@ public class Player : MonoBehaviour
         {
             gameOverPanel.SetActive(true); // Show the Game Over panel
         }
+        // Optionally, you may want to stop player movement or other actions here
         Destroy(gameObject); // Destroy the player object for now
     }
 

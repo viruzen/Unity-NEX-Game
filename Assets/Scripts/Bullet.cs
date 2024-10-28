@@ -15,6 +15,16 @@ public class Bullet : MonoBehaviour
             }
             Destroy(gameObject); // Destroy the bullet
         }
+
+        if (other.CompareTag("Enemy"))
+        {
+            EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage); // Apply damage to enemy
+                Destroy(gameObject); // Destroy bullet after it hits
+            }
+        }
     }
 
     private void OnBecameInvisible() // Optional: Destroy bullet if it goes off-screen
