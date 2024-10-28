@@ -3,14 +3,14 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    private Transform playerTransform; // Reference to the player
-    private NavMeshAgent nav;          // Reference to the NavMeshAgent
-    public float attackRange = 1.5f;   // Distance within which the enemy can attack
-    public int damageToPlayer = 10;    // Damage inflicted on the player
-    private float attackCooldown = 1f; // Time between attacks
-    private float lastAttackTime;       // Timer to manage attack cooldown
+    public GameObject bulletPrefab; // Reference to the bullet prefab
+    public Transform firePoint; // Point from where bullets will be instantiated
+    public float shootingInterval = 2f; // Time between shots
+    public float shootingRange = 10f; // Range within which the enemy can shoot
+    private Transform playerTransform;
+    private NavMeshAgent nav;
 
-    void Start()
+    private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
         nav = GetComponent<NavMeshAgent>();
@@ -19,33 +19,30 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("NavMeshAgent component missing from " + gameObject.name);
         }
+
+        // Start shooting at random intervals
+        InvokeRepeating("ShootAtPlayer", shootingInterval, shootingInterval);
     }
 
-    void Update()
+    private void Update()
     {
         // Check if NavMeshAgent and playerTransform are assigned
         if (nav != null && playerTransform != null)
         {
-            nav.destination = playerTransform.position;
-
-            // Check the distance to the player
-            float distance = Vector3.Distance(transform.position, playerTransform.position);
-            if (distance <= attackRange && Time.time > lastAttackTime + attackCooldown)
-            {
-                // Call the method to damage the player
-                DamagePlayer();
-                lastAttackTime = Time.time; // Reset the last attack time
-            }
+            nav.destination = playerTransform.position; // Move towards player
         }
     }
 
-    private void DamagePlayer()
+    private void ShootAtPlayer()
     {
-        Player playerScript = playerTransform.GetComponent<Player>(); // Get the Player component
-        if (playerScript != null)
+        if (playerTransform != null && Vector3.Distance(transform.position, playerTransform.position) <= shootingRange)
         {
-            playerScript.TakeDamage(damageToPlayer); // Call the TakeDamage method on the player
-            Debug.Log("Enemy attacked the player! Damage: " + damageToPlayer);
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation); // Instantiate bullet
+            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+            if (bulletRb != null)
+            {
+                bulletRb.velocity = (playerTransform.position - firePoint.position).normalized * 30f; // Shoot towards player
+            }
         }
     }
 }

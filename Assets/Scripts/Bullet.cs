@@ -2,28 +2,19 @@
 
 public class Bullet : MonoBehaviour
 {
-    public int damage = 10; // Set damage amount
-    public float lifetime = 3f; // Lifetime of the bullet in seconds
-
-    private void Start()
-    {
-        // Destroy the bullet after a certain lifetime to prevent clutter
-        Destroy(gameObject, lifetime);
-    }
+    public int damage = 10; // Damage done by the bullet
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy")) // Check if we hit an enemy
+        if (other.CompareTag("Player")) // Check if we hit the player
         {
-            EnemyHealth enemy = other.GetComponent<EnemyHealth>(); // Get the Enemy component
-            if (enemy != null)
+            Player player = other.GetComponent<Player>(); // Get the Player component
+            if (player != null)
             {
-                enemy.TakeDamage(damage); // Call damage method
+                player.TakeDamage(damage); // Call damage method
             }
+            Destroy(gameObject); // Destroy the bullet
         }
-
-        // Destroy the bullet after it hits something
-        Destroy(gameObject);
     }
 
     private void OnBecameInvisible() // Optional: Destroy bullet if it goes off-screen

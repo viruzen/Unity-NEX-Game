@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Include this to use UI components
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,19 +10,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        // Ensure Game Over panel is hidden at the start
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
         }
 
-        // Update the UI display at the start
         UpdateHealthDisplay();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the player collides with an enemy
         if (other.CompareTag("Enemy"))
         {
             TakeDamage(damageTaken); // Call method to take damage
@@ -33,7 +30,7 @@ public class Player : MonoBehaviour
     {
         health -= damage; // Reduce health
         Debug.Log("Player took damage! Health: " + health);
-        UpdateHealthDisplay(); // Update health display
+        UpdateHealthDisplay();
 
         if (health <= 0)
         {
@@ -48,7 +45,6 @@ public class Player : MonoBehaviour
         {
             gameOverPanel.SetActive(true); // Show the Game Over panel
         }
-        // Optionally: Stop the player from moving or perform other game over actions
         Destroy(gameObject); // Destroy the player object for now
     }
 
